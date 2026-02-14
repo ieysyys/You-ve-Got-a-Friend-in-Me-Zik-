@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Clumsy Meeting | Forever Yours</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@300;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="heart-container"></div>
+
+    <section id="lock-screen">
+        <div class="glass-card">
+            <div class="lock-icon">
+                <span class="heart-pulse">❤</span>
+            </div>
+            <h2>Yours, Truly.</h2>
+            <p>A small piece of my heart, for the one who holds the key.</p>
+            
+            <div class="input-group">
+                <input type="password" id="password-input" placeholder="Masukkan tahun kita bertemu..." autofocus autocomplete="off">
+                <div id="togglePassword" class="toggle-eye">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                </div>
+            </div>
+
+            <button class="unlock-btn" onclick="checkPassword()">OPEN GIFT</button>
+            <p id="error-msg" class="error-text" style="display: none;">Itu bukan tahunnya, coba lagi bisti... ❤</p>
+        </div>
+    </section>
+
+    <div id="envelope-overlay" style="display: none;">
+        <div class="envelope-wrapper" onclick="openEnvelope()">
+            <div class="envelope" id="main-envelope">
+                <div class="heart-seal">❤</div>
+            </div>
+            <p class="click-me">Tap untuk membuka surat</p>
+        </div>
+    </div>
+
+    <main id="main-content-wrapper" style="display: none;">
+        <header>
+            <div class="header-content">
+                <p class="recipient-name">To my forever favorite person,</p>
+                <h1 class="shimmer-title">Happy Valentine's Day</h1>
+                <p id="intro-greet">You make every day feel like a dream</p>
+                
+                <div class="scroll-container">
+                    <p class="scroll-text">Scroll down our memory lane</p>
+                    <div class="heart-icon pulse">❤</div>
+                </div>
+            </div>
+        </header>
+
+        <section class="moment-container">
+            <article class="moment">
+                <div class="photo-frame">
+                    <img src="images/1.jpg" alt="Moment 1" loading="lazy">
+                </div>
+                <div class="text-content">
+                    <h3>Where it started</h3>
+                    <p>Semuanya berubah sejak saat itu. Dunia tiba-tiba terasa lebih berwarna.</p>
+                </div>
+            </article>
+
+            <article class="moment">
+                <div class="photo-frame">
+                    <img src="images/2.jpg" alt="Moment 2" loading="lazy">
+                </div>
+                <div class="text-content">
+                    <h3>Shared Joy</h3>
+                    <p>Suara tawamu adalah melodi favorit yang ingin aku dengar setiap hari.</p>
+                </div>
+            </article>
+
+            <article class="moment">
+                <div class="photo-frame">
+                    <img src="images/3.jpg" alt="Moment 3" loading="lazy">
+                </div>
+                <div class="text-content">
+                    <h3>Side By Side</h3>
+                    <p>Tidak penting kemana kita pergi, asalkan aku bersamamu, aku sudah merasa 'pulang'.</p>
+                </div>
+            </article>
+
+            </section>
+
+        <section id="typing-container">
+            <div id="typing-text"></div>
+        </section>
+
+        <footer>
+            <p>You will always be my favorite person. <span class="heart-red">❤</span></p>
+        </footer>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Story | For Zikhy</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@300;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0f0c0d;
+            --accent-red: #9e001c;
+            --accent: #9e001c; 
+            --glow-pink: #ff4d6d;
+            --text-gold: #f5d3a1;
+            --text-dim: #d3baba;
+            --text-main: #f5d3a1; 
+        }
+
+        body {
+            margin: 0; padding: 0;
+            font-family: 'Quicksand', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-dim);
+            overflow-x: hidden;
+        }
+
+        /* Background Hati */
+        #heart-container {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .heart-particle {
+            position: absolute;
+            color: var(--accent-red);
+            opacity: 0.5;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(105vh) rotate(360deg); }
+        }
+
+        /* Lock Screen */
+        #lock-screen {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at center, #1a0a0c 0%, #000 100%);
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.8s ease;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2.5rem;
+            border-radius: 24px;
+            text-align: center;
+            width: 320px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .heart-pulse {
+            display: inline-block;
+            color: var(--accent);
+            font-size: 2.5rem;
+            animation: pulse 1.5s infinite;
+        }
+
+        .input-group { position: relative; margin: 20px 0; }
+
+        input#password-input {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--accent);
+            padding: 12px;
+            border-radius: 12px;
+            color: white;
+            text-align: center;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .unlock-btn {
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            border: none;
+            background: var(--accent);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .unlock-btn:hover { background: var(--glow-pink); transform: scale(1.02); }
+
+        /* Main Content */
+        header { height: 100vh; display: flex; justify-content: center; align-items: center; text-align: center; }
+        
+        h1.shimmer-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            color: var(--text-gold);
+            text-shadow: 0 0 20px rgba(245, 211, 161, 0.4);
+        }
+
+        .moment-container { max-width: 800px; margin: 0 auto; padding: 20px; }
+        .moment { display: flex; align-items: center; margin-bottom: 100px; gap: 20px; }
+        .moment:nth-child(even) { flex-direction: row-reverse; }
+        .photo-frame { flex: 1; background: #1a1a1a; padding: 10px; border-radius: 8px; border: 1px solid var(--text-gold); }
+        .photo-frame img { width: 100%; border-radius: 4px; filter: grayscale(30%); }
+        .text-content { flex: 1; }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        #envelope-overlay {
+            position: fixed; inset: 0; background: var(--bg-dark);
+            display: none; justify-content: center; align-items: center; z-index: 9998;
+        }
+
+        .envelope {
+            width: 150px; height: 100px; background: var(--accent);
+            position: relative; cursor: pointer; border-radius: 0 0 5px 5px;
+        }
+
+        .envelope::after {
+            content: ''; position: absolute; top: -75px; left: 0;
+            border-left: 75px solid transparent; border-right: 75px solid transparent;
+            border-bottom: 75px solid var(--accent);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="heart-container"></div>
+
+    <div id="lock-screen">
+        <div class="glass-card">
+            <div class="lock-icon"><span class="heart-pulse">❤</span></div>
+            <h2>For Zikhy</h2>
+            <p>Masukkan tahun pertama kali kita bertemu untuk membuka kado ini.</p>
+            <div class="input-group">
+                <input type="password" id="password-input" placeholder="Tahun (YYYY)" autofocus>
+            </div>
+            <button class="unlock-btn" onclick="checkPassword()">BUKA SEKARANG</button>
+            <p id="error-msg" style="color: var(--accent); display: none; margin-top: 10px; font-size: 0.8rem;">Tahunnya salah, coba ingat lagi... ❤</p>
+        </div>
+    </div>
+
+    <div id="envelope-overlay">
+        <div class="envelope" onclick="openEnvelope()">
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; z-index: 10;">Tap</div>
+        </div>
+    </div>
+
+    <div id="main-content-wrapper" style="display: none;">
+        <header>
+            <div class="header-content">
+                <p style="letter-spacing: 3px;">TO MY DEAREST FRIEND, ZIKHY</p>
+                <h1 class="shimmer-title">Happy Valentine's Day</h1>
+                <p>Terima kasih sudah menjadi bagian dari ceritaku sejak 2023.</p>
+            </div>
+        </header>
+
+        <div class="moment-container">
+            <div class="moment">
+                <div class="photo-frame"><img src="images/1.jpg" alt="Zikhy" onerror="this.src='https://via.placeholder.com/400x400?text=Awal+2023'"></div>
+                <div class="text-content">
+                    <h3>Titik Awal 2023</h3>
+                    <p>Siapa sangka pertemuan di tahun 2023 membawa kita sejauh ini. Kamu adalah salah satu hal terbaik yang terjadi di tahun itu.</p>
+                </div>
+            </div>
+
+            <div class="moment">
+                <div class="photo-frame"><img src="images/2.jpg" alt="Zikhy" onerror="this.src='https://via.placeholder.com/400x400?text=Zikhy'"></div>
+                <div class="text-content">
+                    <h3>Sahabat Terbaik</h3>
+                    <p>Zikhy, terima kasih sudah selalu ada. Semoga pertemanan kita tetap sehangat ini selamanya.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="typing-container" style="text-align: center; padding: 50px;">
+            <p id="typing-text" style="font-style: italic; color: var(--text-gold); font-size: 1.2rem;"></p>
+        </div>
+
+        <footer>
+            <p>Selamanya menjadi favoritku. <span style="color: red;">❤</span></p>
+        </footer>
+    </div>
+
+    <script>
+        // 1. Password Check
+        function checkPassword() {
+            const pass = document.getElementById('password-input').value;
+            const error = document.getElementById('error-msg');
+            
+            if (pass === "2023") {
+                document.getElementById('lock-screen').style.opacity = "0";
+                setTimeout(() => {
+                    document.getElementById('lock-screen').style.display = "none";
+                    document.getElementById('envelope-overlay').style.display = "flex";
+                }, 800);
+            } else {
+                error.style.display = "block";
+            }
+        }
+
+        // 2. Open Envelope
+        function openEnvelope() {
+            document.getElementById('envelope-overlay').style.opacity = "0";
+            setTimeout(() => {
+                document.getElementById('envelope-overlay').style.display = "none";
+                document.getElementById('main-content-wrapper').style.display = "block";
+                startTyping();
+            }, 800);
+        }
+
+        // 3. Typing Effect
+        function startTyping() {
+            const text = "Zikhy, kamu adalah alasan kenapa tahun 2023 terasa begitu istimewa. Mari buat lebih banyak kenangan indah bersama...";
+            let i = 0;
+            const target = document.getElementById('typing-text');
+            function type() {
+                if (i < text.length) {
+                    target.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, 100);
+                }
+            }
+            type();
+        }
+
+        // 4. Heart Animation
+        function createHeart() {
+            const container = document.getElementById('heart-container');
+            const heart = document.createElement('div');
+            heart.innerHTML = '❤';
+            heart.classList.add('heart-particle');
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = Math.random() * 20 + 10 + 'px';
+            heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+            container.appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
+        }
+        setInterval(createHeart, 300);
+    </script>
+</body>
+</html>
